@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Full Stack Developer</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        
+        const Portfolio = () => {
+            const [typedText, setTypedText] = useState('');
+            const [currentRole, setCurrentRole] = useState(0);
+            const canvasRef = useRef(null);
+            
+            const roles = [
+                'Full Stack Developer',
+                'Machine Learning Engineer',
+                'Software Architect',
+                'Tech Innovator'
+            ];
+            
+            // Typing animation effect
+            useEffect(() => {
+                let timeout;
+                const currentRoleText = roles[currentRole];
+                
+                if (typedText.length < currentRoleText.length) {
+                    timeout = setTimeout(() => {
+                        setTypedText(currentRoleText.slice(0, typedText.length + 1));
+                    }, 100);
+                } else {
+                    timeout = setTimeout(() => {
+                        setTypedText('');
+                        setCurrentRole((prev) => (prev + 1) % roles.length);
+                    }, 2000);
+                }
+                
+                return () => clearTimeout(timeout);
+            }, [typedText, currentRole]);
+            
+            // Particle background
+            useEffect(() => {
+                const canvas = canvasRef.current;
+                if (!canvas) return;
+                
+                const ctx = canvas.getContext('2d');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                
+                const particles = [];
+                const particleCount = 100;
+                
+                class Particle {
+                    constructor() {
+                        this.x = Math.random() * canvas.width;
+                        this.y = Math.random() * canvas.height;
+                        this.vx = (Math.random() - 0.5) * 0.5;
+                        this.vy = (Math.random() - 0.5) * 0.5;
+                        this.radius = Math.random() * 2 + 1;
+                        this.opacity = Math.random() * 0.5 + 0.2;
+                    }
+                    
+                    update() {
+                        this.x += this.vx;
+                        this.y += this.vy;
+                        
+                        if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
+                        if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
+                    }
+                    
+                    draw() {
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(102, 126, 234, ${this.opacity})`;
+                        ctx.fill();
+                    }
+                }
+                
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+                
+                const animate = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    particles.forEach(particle => {
+                        particle.update();
+                        particle.draw();
+                    });
+                    
+                    // Draw connections
+                    particles.forEach((particle, i) => {
+                        particles.slice(i + 1).forEach(otherParticle => {
+                            const dx = particle.x - otherParticle.x;
+                            const dy = particle.y - otherParticle.y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            
+                            if (distance < 100) {
+                                ctx.beginPath();
+                                ctx.moveTo(particle.x, particle.y);
+                                ctx.lineTo(otherParticle.x, otherParticle.y);
+                                ctx.strokeStyle = `rgba(102, 126, 234, ${0.1 * (1 - distance / 100)})`;
+                                ctx.lineWidth = 1;
+                                ctx.stroke();
+                            }
+                        });
+                    });
+                    
+                    requestAnimationFrame(animate);
+                };
+                
+                animate();
+                
+                const handleResize = () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                };
+                
+                window.addEventListener('resize', handleResize);
+                return () => window.removeEventListener('resize', handleResize);
+            }, []);
+            
+            const projects = [
+                {
+                    title: "AI-Powered Analytics Dashboard",
+                    description: "A comprehensive analytics platform using machine learning algorithms to provide real-time insights and predictive analytics for business intelligence.",
+                    tech: ["React", "Python", "TensorFlow", "FastAPI", "PostgreSQL"],
+                    github: "https://github.com/yourusername/ai-analytics",
+                    demo: "https://ai-analytics-demo.com"
+                },
+                {
+                    title: "Distributed Microservices Architecture",
+                    description: "Scalable microservices system with containerized services, API gateway, and service mesh for high-performance applications.",
+                    tech: ["Docker", "Kubernetes", "Node.js", "MongoDB", "Redis"],
+                    github: "https://github.com/yourusername/microservices",
+                    demo: "https://microservices-demo.com"
+                },
+                {
+                    title: "Blockchain-Based Supply Chain",
+                    description: "Decentralized supply chain management system ensuring transparency and traceability using smart contracts and blockchain technology.",
+                    tech: ["Solidity", "Web3.js", "Ethereum", "React", "IPFS"],
+                    github: "https://github.com/yourusername/blockchain-supply",
+                    demo: "https://blockchain-supply-demo.com"
+                },
+                {
+                    title: "Real-time Chat Application",
+                    description: "High-performance real-time messaging platform with end-to-end encryption, file sharing, and video calling capabilities.",
+                    tech: ["Socket.io", "Node.js", "React", "WebRTC", "MongoDB"],
+                    github: "https://github.com/yourusername/realtime-chat",
+                    demo: "https://realtime-chat-demo.com"
+                }
+            ];
+            
+            const skills = {
+                "Frontend": ["React", "Vue.js", "TypeScript", "Next.js", "Tailwind CSS", "Three.js"],
+                "Backend": ["Node.js", "Python", "Java", "Go", "PostgreSQL", "MongoDB"],
+                "DevOps": ["Docker", "Kubernetes", "AWS", "CI/CD", "Terraform", "Monitoring"],
+                "ML/AI": ["TensorFlow", "PyTorch", "Scikit-learn", "OpenCV", "NLP", "Computer Vision"]
+            };
+            
+            const experience = [
+                {
+                    date: "2023 - Present",
+                    title: "Senior Full Stack Developer",
+                    company: "Tech Innovators Inc.",
+                    description: "Leading development of scalable web applications using modern technologies. Mentoring junior developers and architecting cloud-native solutions."
+                },
+                {
+                    date: "2021 - 2023",
+                    title: "Machine Learning Engineer",
+                    company: "AI Solutions Corp.",
+                    description: "Developed and deployed ML models for predictive analytics. Built data pipelines and implemented MLOps practices for production systems."
+                },
+                {
+                    date: "2020 - 2021",
+                    title: "Software Developer",
+                    company: "StartupXYZ",
+                    description: "Built full-stack applications from concept to deployment. Collaborated with cross-functional teams to deliver high-quality software solutions."
+                }
+            ];
+            
+            const scrollToSection = (sectionId) => {
+                document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+            };
+            
+            return (
+                <div className="portfolio">
+                    <canvas ref={canvasRef} className="parallax-stars" />
+                    
+                    <nav className="nav-bar">
+                        <a href="#home" className="nav-link" onClick={() => scrollToSection('home')}>Home</a>
+                        <a href="pages/projects.html" className="nav-link">Projects</a>
+                        <a href="pages/skills.html" className="nav-link">Skills</a>
+                        <a href="pages/experience.html" className="nav-link">Experience</a>
+                        <a href="pages/contact.html" className="nav-link">Contact</a>
+                    </nav>
+                    
+                    <section id="home" className="hero-section gradient-bg">
+                        <div className="hero-content">
+                            <h1 className="hero-title">Your Name</h1>
+                            <h2 className="hero-subtitle typing-animation">
+                                {typedText}
+                            </h2>
+                            <p className="hero-description">
+                                Passionate about creating innovative solutions that bridge the gap between 
+                                cutting-edge technology and real-world applications. Building the future, one line of code at a time.
+                            </p>
+                            <div className="cta-buttons">
+                                <a href="pages/projects.html" className="cta-button cta-primary">
+                                    View My Work
+                                </a>
+                                <a href="pages/contact.html" className="cta-button cta-secondary">
+                                    Get In Touch
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section id="preview" className="section">
+                        <h2 className="section-title">Featured Projects</h2>
+                        <div className="projects-grid">
+                            {projects.slice(0, 2).map((project, index) => (
+                                <div key={index} className="project-card neon-glow">
+                                    <h3 className="project-title">{project.title}</h3>
+                                    <p className="project-description">{project.description}</p>
+                                    <div className="project-tech">
+                                        {project.tech.map((tech, i) => (
+                                            <span key={i} className="tech-tag">{tech}</span>
+                                        ))}
+                                    </div>
+                                    <div className="project-links">
+                                        <a href={project.github} className="project-link">GitHub →</a>
+                                        <a href={project.demo} className="project-link">Live Demo →</a>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <div style={{textAlign: 'center', marginTop: '3rem'}}>
+                            <a href="pages/projects.html" className="cta-button cta-primary">
+                                View All Projects
+                            </a>
+                        </div>
+                    </section>
+                    
+                    <section id="skills-preview" className="section">
+                        <h2 className="section-title">Technical Skills</h2>
+                        <div className="skills-grid">
+                            {Object.entries(skills).slice(0, 2).map(([category, skillList]) => (
+                                <div key={category} className="skill-category">
+                                    <h3>{category}</h3>
+                                    <div className="skill-list">
+                                        {skillList.slice(0, 4).map((skill, i) => (
+                                            <span key={i} className="skill-item">{skill}</span>
+                                        ))}
+                                        {skillList.length > 4 && (
+                                            <span className="skill-item">+{skillList.length - 4} more</span>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <div style={{textAlign: 'center', marginTop: '3rem'}}>
+                            <a href="pages/skills.html" className="cta-button cta-secondary">
+                                View All Skills
+                            </a>
+                        </div>
+                    </section>
+                    
+                    <section id="cta-section" className="section">
+                        <div className="contact-section glass-effect">
+                            <h2 className="section-title">Let's Build Something Amazing</h2>
+                            <p style={{fontSize: '1.2rem', color: '#d0d0d0', marginBottom: '2rem'}}>
+                                Ready to collaborate on your next project? Let's connect and create something extraordinary together.
+                            </p>
+                            <div className="cta-buttons">
+                                <a href="pages/contact.html" className="cta-button cta-primary">
+                                    Get In Touch
+                                </a>
+                                <a href="pages/experience.html" className="cta-button cta-secondary">
+                                    View Experience
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <div className="floating-shapes">
+                        <div className="shape" style={{
+                            left: '10%', 
+                            animationDelay: '0s',
+                            width: '20px',
+                            height: '20px',
+                            background: 'linear-gradient(45deg, #667eea, #764ba2)',
+                            borderRadius: '50%'
+                        }}></div>
+                        <div className="shape" style={{
+                            left: '80%', 
+                            animationDelay: '2s',
+                            width: '15px',
+                            height: '15px',
+                            background: 'linear-gradient(45deg, #f093fb, #f5576c)',
+                            borderRadius: '50%'
+                        }}></div>
+                        <div className="shape" style={{
+                            left: '50%', 
+                            animationDelay: '4s',
+                            width: '25px',
+                            height: '25px',
+                            background: 'linear-gradient(45deg, #4facfe, #00f2fe)',
+                            borderRadius: '50%'
+                        }}></div>
+                    </div>
+                </div>
+            );
+        };
+        
+        ReactDOM.render(<Portfolio />, document.getElementById('root'));
+    </script>
+    
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
