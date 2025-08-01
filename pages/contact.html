@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Utkarsh Upadhyay</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <script src="../assets/js/navbar.js"></script>
+    <script src="../assets/js/script.js"></script>
+</head>
+
+<body class="contact-page">
+    <!-- Particle Background -->
+    <canvas id="particle-bg" class="parallax-stars"></canvas>
+
+    <!-- Navigation Bar -->
+    <div id="navbar"></div>
+
+    <!-- Hero-like Header -->
+    <section class="page-hero gradient-bg fog-compact">
+        <div class="fogwrapper">
+            <div id="foglayer_01" class="fog">
+                <div class="image01"></div>
+                <div class="image02"></div>
+            </div>
+            <div id="foglayer_02" class="fog">
+                <div class="image01"></div>
+                <div class="image02"></div>
+            </div>
+        </div>
+        <div class="page-header-content">
+            <h1 class="page-title">Contact Me</h1>
+            <p class="page-subtitle">Let’s connect and collaborate on exciting opportunities.</p>
+        </div>
+    </section>
+
+    <!-- Main Section -->
+    <section class="section contact-section">
+        <div class="contact-grid">
+            <!-- Left Column -->
+            <!-- <div class="contact-info"> -->
+            <div class="contact-card">
+                <!-- Contact Info -->
+                <h2>Get in Touch</h2>
+                <p>Email: <a href="mailto:utkarsh17j1@gmail.com">utkarsh17j1@gmail.com</a></p>
+                <p>Phone: <a href="tel:+918824848425">+91 88248 48425</a></p>
+
+                <!-- Social Links -->
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/utkarsh-upadhyay-2b459021a/" target="_blank"
+                        class="social-link">
+                        <img src="../assets/icons/linkedin.svg" alt="LinkedIn">
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/utkarsh-ls" target="_blank" class="social-link">
+                        <img src="../assets/icons/github.svg" alt="GitHub">
+                        <span>GitHub</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Column (Contact Form) -->
+            <div class="contact-card">
+                <h2>Send a Message</h2>
+                <form class="contact-form" action="https://formspree.io/f/yourformid" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="../assets/js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experience - Utkarsh Upadhyay</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <script src="../assets/js/navbar.js"></script>
+    <script src="../assets/js/script.js"></script>
+</head>
+
+<body>
+    <!-- Particle Background -->
+    <canvas id="particle-bg" class="parallax-stars"></canvas>
+
+    <!-- Navigation Bar -->
+    <div id="navbar"></div>
+
+    <!-- Hero-like Header -->
+    <section class="page-hero gradient-bg fog-compact">
+        <div class="fogwrapper">
+            <div id="foglayer_01" class="fog">
+                <div class="image01"></div>
+                <div class="image02"></div>
+            </div>
+            <div id="foglayer_02" class="fog">
+                <div class="image01"></div>
+                <div class="image02"></div>
+            </div>
+        </div>
+        <div class="page-header-content">
+            <h1 class="page-title">Experience</h1>
+            <p class="page-subtitle">A snapshot of my professional journey.</p>
+        </div>
+    </section>
+
+    <!-- Main Section -->
+    <section class="section">
+        <div class="experience-timeline" id="experience-container"></div>
+    </section>
+
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/render.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script>
+        renderExperience('experience-container');
+    </script>
+</body>
+
+</html>
